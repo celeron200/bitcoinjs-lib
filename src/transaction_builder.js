@@ -2,6 +2,7 @@ var assert = require('assert')
 var ops = require('./opcodes')
 var scripts = require('./scripts')
 
+var Address = require('./address')
 var ECPubKey = require('./ecpubkey')
 var ECSignature = require('./ecsignature')
 var Script = require('./script')
@@ -41,7 +42,7 @@ function extractInput(txIn) {
       hashType = parsed.hashType
       pubKeys = [ECPubKey.fromBuffer(scriptSig.chunks[1])]
       signatures = [parsed.signature]
-      prevOutScript = pubKeys[0].getAddress().toOutputScript()
+      prevOutScript = Address.toOutputScript(pubKeys[0].getAddress())
 
       break
     }
@@ -335,7 +336,7 @@ TransactionBuilder.prototype.sign = function(index, privKey, redeemScript, hashT
 
       // we know nothin' Jon Snow, assume pubKeyHash
       } else {
-        input.prevOutScript = privKey.pub.getAddress().toOutputScript()
+        input.prevOutScript = Address.toOutputScript(privKey.pub.getAddress())
         input.prevOutType = 'pubkeyhash'
         input.pubKeys = [privKey.pub]
         input.scriptType = input.prevOutType

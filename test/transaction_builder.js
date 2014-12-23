@@ -1,5 +1,6 @@
 var assert = require('assert')
 
+var Address = require('../src/address')
 var BigInteger = require('bigi')
 var ECKey = require('../src/eckey')
 var Script = require('../src/script')
@@ -61,7 +62,7 @@ describe('TransactionBuilder', function() {
 
     privKey = new ECKey(BigInteger.ONE, false)
     privAddress = privKey.pub.getAddress()
-    privScript = privAddress.toOutputScript()
+    privScript = Address.toOutputScript(privAddress)
   })
 
   describe('addInput', function() {
